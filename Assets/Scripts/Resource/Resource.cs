@@ -9,6 +9,8 @@ public class Resource : MonoBehaviour
     [SerializeField] private bool collisionWhenDestroyed;
     [SerializeField] private bool respawns;
     [SerializeField] private float respawnTimeMin;
+    [SerializeField] private ItemAmount[] dropItems;
+    [SerializeField] private DropItem dropItemPrefab;
 
     private Sprite fullSprite;
 
@@ -31,18 +33,32 @@ public class Resource : MonoBehaviour
         health = maxHealth;
     }
 
-    public void Hit(float damage)
+    public void Hit(float damage, float chanceBonus = 0)
     {
         health = Mathf.Clamp(health - damage, 0, maxHealth);
-        if (health <= 0) Destroy();
+        if (health <= 0) Destroy(chanceBonus);
     }
 
-    public void Destroy()
+    public void Destroy(float chanceBonus)
     {
         animator.enabled = false;
         spriteRenderer.sprite = destroyedSprite;
         collider.enabled = collisionWhenDestroyed;
+        DropItems(chanceBonus);
         if (respawns) StartCoroutine(Respawn());
+    }
+
+    public void DropItems(float chanceBonus)
+    {
+        foreach (var item in dropItems)
+        {
+            int amount = item.GetAmountChance(chanceBonus);
+            if (amount > 0)
+            {
+                DropItem dropItem = Instantiate(dropItemPrefab, this.transform.position, new Quaternion(0,0,0,0));
+                dropItem.Setup(new Vector2(Random.Range(-1f,1f), Random.Range(-1f, 1f)).normalized * 5, item.item, amount);
+            }
+        }
     }
 
     private IEnumerator Respawn()

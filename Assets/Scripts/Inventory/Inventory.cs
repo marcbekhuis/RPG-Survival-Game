@@ -38,7 +38,7 @@ public class Inventory : MonoBehaviour
     {
         foreach (var itemAmount in startingItems)
         {
-            AddItem(itemAmount.item, Random.Range(itemAmount.minAmount, itemAmount.maxAmount));
+            AddItem(itemAmount.item, itemAmount.GetAmount());
         }
     }
 

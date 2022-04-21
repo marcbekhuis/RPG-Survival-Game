@@ -6,6 +6,20 @@ using UnityEngine;
 public class ItemAmount
 {
     public Item item;
-    public int minAmount = 0;
-    public int maxAmount = 1;
+    [SerializeField] private float chance = 0;
+    [SerializeField] private int minAmount = 0;
+    [SerializeField] private int maxAmount = 1;
+
+    public int GetAmount()
+    {
+        return Random.Range(minAmount, maxAmount);
+    }
+
+    public int GetAmountChance(float bonusChance = 0)
+    {
+        if (Random.Range(0, 100) + bonusChance < chance)
+            return Random.Range(minAmount, maxAmount);
+        else
+            return 0;
+    }
 }

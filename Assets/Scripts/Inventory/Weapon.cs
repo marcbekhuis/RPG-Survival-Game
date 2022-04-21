@@ -96,6 +96,7 @@ public class Weapon : DurabilityItem
         {
             Vector2 objectDirection = ((Vector2)collider.transform.position - (Vector2)user.transform.position).normalized;
             float objectAngle = Mathf.Atan2(objectDirection.y, objectDirection.x) * Mathf.Rad2Deg;
+            Debug.LogError(lookAngle.ToString() + "  " + objectAngle.ToString());
             if(collider.gameObject != user)
                 if (objectAngle < lookAngle + halfAngle && objectAngle > lookAngle - halfAngle) validTargets.Add(collider);
         }

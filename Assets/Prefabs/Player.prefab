@@ -218,6 +218,7 @@ GameObject:
   - component: {fileID: 6192145274581466758}
   - component: {fileID: 6142190412994197889}
   - component: {fileID: 1274438175432307224}
+  - component: {fileID: 223312786517709358}
   m_Layer: 6
   m_Name: Player
   m_TagString: Untagged
@@ -316,6 +317,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   walkSpeed: 3
   runSpeed: 5
+  lastDirection: {x: 0, y: 0}
 --- !u!114 &6192145274581466758
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -349,9 +351,11 @@ MonoBehaviour:
   linkedInventory: {fileID: 6192145274581466758}
   startingItems:
   - item: {fileID: 11400000, guid: 0de183d644e892943b22ae730fce8236, type: 2}
+    chance: 0
     minAmount: 1
     maxAmount: 1
   - item: {fileID: 11400000, guid: a9e65e1c373728d4ab89cf8d6a6a18b9, type: 2}
+    chance: 0
     minAmount: 1
     maxAmount: 1
 --- !u!114 &1274438175432307224
@@ -367,3 +371,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 30
+--- !u!114 &223312786517709358
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4312610763772478251}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42033e427bc232949a10d42c6d29dc8f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inventory: {fileID: 6142190412994197889}
+  itemLayer:
+    serializedVersion: 2
+    m_Bits: 256
+  range: 0.2

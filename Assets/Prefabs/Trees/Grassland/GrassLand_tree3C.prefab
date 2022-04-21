@@ -262,3 +262,13 @@ MonoBehaviour:
   collisionWhenDestroyed: 0
   respawns: 1
   respawnTimeMin: 10
+  dropItems:
+  - item: {fileID: 11400000, guid: 43e90bfd5cc1c3f49b40bd1c55fd2133, type: 2}
+    chance: 100
+    minAmount: 1
+    maxAmount: 5
+  - item: {fileID: 11400000, guid: e34253eaf2b94494c84d39b6d44d07ff, type: 2}
+    chance: 50
+    minAmount: 1
+    maxAmount: 5
+  dropItemPrefab: {fileID: 7072724294726530916, guid: fa31ddb9189ae02489f3b325fc9a29cc, type: 3}
