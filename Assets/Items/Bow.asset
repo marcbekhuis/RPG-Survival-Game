@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 623d27cd33718de4d86f965103b19b2e, type: 3}
+  m_Name: Bow
+  m_EditorClassIdentifier: 
+  displayName: 
+  description: 
+  icon: {fileID: 21300000, guid: bbf8638a8a75d9c42b93639213c92c9b, type: 3}
+  dropSprite: {fileID: 21300000, guid: bbf8638a8a75d9c42b93639213c92c9b, type: 3}
+  stackSize: 1
+  weight: 0
+  inventory: {fileID: 0}
+  used: 0
+  action: 18
+  maxDurability: 20
+  damage: 1
+  angle: 45
+  duration: 2
+  cooldown: 5
+  damageDelay: 1
