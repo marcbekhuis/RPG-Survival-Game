@@ -542,8 +542,8 @@ TextureImporter:
       physicsShape:
       - - {x: -12, y: -10}
         - {x: -12, y: -8}
-        - {x: -8, y: -6}
-        - {x: 6, y: -6}
+        - {x: -8, y: -5}
+        - {x: 6, y: -5}
         - {x: 7, y: -11}
         - {x: -3, y: -16}
       tessellationDetail: 0
@@ -1396,7 +1396,7 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      decorative_props_39: -1229895075
+      decorative_props_55: 61904855
       decorative_props_7: -1672189592
       decorative_props_16: 2019934707
       decorative_props_29: 2028499393
@@ -1450,10 +1450,10 @@ TextureImporter:
       decorative_props_10: 1164656425
       decorative_props_42: 2066447206
       decorative_props_2: -1740851026
-      decorative_props_55: 61904855
       decorative_props_41: 199404617
-      decorative_props_18: 1698679379
       decorative_props_9: 245881534
+      decorative_props_18: 1698679379
+      decorative_props_39: -1229895075
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

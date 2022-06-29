@@ -18,7 +18,6 @@ MonoBehaviour:
   dropSprite: {fileID: 21300000, guid: bbf8638a8a75d9c42b93639213c92c9b, type: 3}
   stackSize: 1
   weight: 0
-  inventory: {fileID: 0}
   used: 0
   cooldown: 2
   action: 18
@@ -30,4 +29,4 @@ MonoBehaviour:
   projectileInterval: 0.1
   numberOfProjectiles: 20
   projectilePrefab: {fileID: 2381733687451255186, guid: 23e93c31cb439c647901ed37695df1b0, type: 3}
-  ammo: {fileID: 11400000, guid: 43e90bfd5cc1c3f49b40bd1c55fd2133, type: 2}
+  ammo: {fileID: 11400000, guid: 4195b23075542b542ad5ba9c13186cb1, type: 2}
