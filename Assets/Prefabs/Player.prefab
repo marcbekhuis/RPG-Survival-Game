@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 2520676097773236897}
   - component: {fileID: 7452577025922120429}
   - component: {fileID: 1240828265390054159}
+  - component: {fileID: 8553288702409993891}
   m_Layer: 6
   m_Name: Camera
   m_TagString: Untagged
@@ -118,6 +119,18 @@ MonoBehaviour:
   m_RequiresDepthTexture: 0
   m_RequiresColorTexture: 0
   m_Version: 2
+--- !u!114 &8553288702409993891
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3916693297143655484}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9028ff2e4771884d9b0faa3aaef0620, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4312610763038591756
 GameObject:
   m_ObjectHideFlags: 0
@@ -211,17 +224,19 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4312610763772478245}
-  - component: {fileID: 4312610763772478244}
   - component: {fileID: 5475863178242340112}
   - component: {fileID: 9040691091603115609}
+  - component: {fileID: 4312610763772478244}
   - component: {fileID: 3720573114167984560}
   - component: {fileID: 6192145274581466758}
   - component: {fileID: 6142190412994197889}
   - component: {fileID: 1274438175432307224}
+  - component: {fileID: -3593952224551134414}
+  - component: {fileID: 2574185796142604351}
   - component: {fileID: 223312786517709358}
   m_Layer: 6
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -243,19 +258,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4312610763772478244
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4312610763772478251}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 226aafc35899c124eb6ff862b5dfe0a4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  body: {fileID: 4312610763038591758}
 --- !u!61 &5475863178242340112
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -303,6 +305,19 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!114 &4312610763772478244
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4312610763772478251}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 226aafc35899c124eb6ff862b5dfe0a4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  body: {fileID: 4312610763038591758}
 --- !u!114 &3720573114167984560
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -317,6 +332,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   walkSpeed: 3
   runSpeed: 5
+  runStaminaCost: 1
+  staminaSystem: {fileID: -3593952224551134414}
   lastDirection: {x: 0, y: 0}
 --- !u!114 &6192145274581466758
 MonoBehaviour:
@@ -332,7 +349,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: PlayerInventory
   size: {x: 9, y: 3}
-  linkedInventory: {fileID: 0}
+  linkedInventory: {fileID: 6142190412994197889}
   startingItems: []
 --- !u!114 &6142190412994197889
 MonoBehaviour:
@@ -358,6 +375,11 @@ MonoBehaviour:
     chance: 0
     minAmount: 1
     maxAmount: 1
+  - item: {fileID: 11400000, guid: f92025e4fa4214e45aec06bc28b534a0, type: 2}
+    chance: 0
+    minAmount: 1
+    maxAmount: 1
+  characterMovement: {fileID: 3720573114167984560}
 --- !u!114 &1274438175432307224
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -371,6 +393,38 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 30
+--- !u!114 &-3593952224551134414
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4312610763772478251}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b2affdade736304191de55e621ea6a4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxStamina: 15
+  staminaRegenCooldown: 5
+  staminaRegenPerSec: 1
+  foodConsumePerSec: 0.2
+  foodSystem: {fileID: 2574185796142604351}
+--- !u!114 &2574185796142604351
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4312610763772478251}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3fce5f52929056343aa7a1dcd50830b1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxFood: 20
+  hungerDamagePerSec: 0.1
+  healthSystem: {fileID: 1274438175432307224}
 --- !u!114 &223312786517709358
 MonoBehaviour:
   m_ObjectHideFlags: 0

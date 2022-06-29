@@ -4,15 +4,16 @@ using UnityEngine;
 
 public class HotbarInventory : Inventory
 {
+    [SerializeField] private CharacterMovement characterMovement;
+
     private Vector2Int index = Vector2Int.zero;
     private bool sameUpdate = false;
+    private Vector2Int oldIndex;
 
     public Item selectedItem { get => GetItem(index); }
 
     public delegate void SelectedItemChanged(Vector2Int index, Vector2Int oldIndex);
     public event SelectedItemChanged onSelectedItemChanged = delegate { };
-
-    Vector2Int oldIndex;
 
     // Start is called before the first frame update
     public override void FullSetup()
@@ -27,11 +28,12 @@ public class HotbarInventory : Inventory
     {
         sameUpdate = false;
         if (GameManager.instance.playerInputBlocked) return;
-        if (selectedItem.used) return;
+        if (selectedItem)
+            if (selectedItem.used) return;
 
         if (selectedItem)
             if(selectedItem.TryGetType<UsableItem>(out UsableItem usableItem))
-                usableItem.UseItemAction(this.gameObject);
+                usableItem.UseItemAction(this.gameObject, characterMovement.lastDirection);
 
         for (int x = 0; x < 9; x++)
         {
@@ -44,7 +46,7 @@ public class HotbarInventory : Inventory
                     onSelectedItemChanged(index, oldIndex);
                     if (selectedItem)
                         if (selectedItem.TryGetType<UsableItem>(out UsableItem usableItem))
-                            usableItem.OnSelect(this.gameObject);
+                            usableItem.OnSelect(this.gameObject, characterMovement.lastDirection);
                 }
             }
         }
@@ -64,7 +66,7 @@ public class HotbarInventory : Inventory
             onSelectedItemChanged(index, oldIndex);
             if (selectedItem)
                 if (selectedItem.TryGetType<UsableItem>(out UsableItem usableItem))
-                    usableItem.OnSelect(this.gameObject);
+                    usableItem.OnSelect(this.gameObject, characterMovement.lastDirection);
         }
         else if (turnValue < 0)
         {
@@ -81,7 +83,7 @@ public class HotbarInventory : Inventory
             onSelectedItemChanged(index, oldIndex);
             if (selectedItem)
                 if (selectedItem.TryGetType<UsableItem>(out UsableItem usableItem))
-                    usableItem.OnSelect(this.gameObject);
+                    usableItem.OnSelect(this.gameObject, characterMovement.lastDirection);
         }
     }
 
@@ -94,7 +96,7 @@ public class HotbarInventory : Inventory
             onSelectedItemChanged(this.index, oldIndex);
             if (selectedItem)
                 if (selectedItem.TryGetType<UsableItem>(out UsableItem usableItem))
-                    usableItem.OnSelect(this.gameObject);
+                    usableItem.OnSelect(this.gameObject, characterMovement.lastDirection);
         }
         else if(index == this.index)
         {
@@ -102,7 +104,7 @@ public class HotbarInventory : Inventory
             if (selectedItem)
             {
                 if (selectedItem.TryGetType<UsableItem>(out UsableItem usableItem))
-                    usableItem.OnSelect(this.gameObject);
+                    usableItem.OnSelect(this.gameObject, characterMovement.lastDirection);
             }
             else
             {
@@ -118,7 +120,7 @@ public class HotbarInventory : Inventory
                 onSelectedItemChanged(this.index, oldIndex);
                 if (selectedItem)
                     if (selectedItem.TryGetType<UsableItem>(out UsableItem usableItem))
-                        usableItem.OnSelect(this.gameObject);
+                        usableItem.OnSelect(this.gameObject, characterMovement.lastDirection);
             }
         }
         sameUpdate = true;

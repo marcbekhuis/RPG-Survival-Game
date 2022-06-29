@@ -6,16 +6,26 @@ using UnityEngine;
 public class UsableItem : Item
 {
     [Header("Usable Item")]
+    [Min(0)] public float cooldown;
     public InputActions action;
+
+    [HideInInspector] public float cooldownTimer;
+
+    public delegate void DisplayCooldown();
+    public event DisplayCooldown onDisplayCooldown = delegate { };
 
     public UsableItem(UsableItem item, int amount, Inventory inventory) : base(item, amount, inventory)
     {
         action = item.action;
+        this.cooldown = item.cooldown;
+        cooldownTimer = GameManager.instance.time;
     }
 
     public UsableItem(SaveFile saveFile, UsableItem item) : base(saveFile, item)
     {
         action = item.action;
+        this.cooldown = item.cooldown;
+        cooldownTimer = GameManager.instance.time;
     }
 
     public override Item Create(int amount, Inventory inventory)
@@ -32,17 +42,26 @@ public class UsableItem : Item
         return item;
     }
 
-    public void UseItemAction(GameObject user)
+    public void UseItemAction(GameObject user, Vector2 direction)
     {
         if (InputManager.instance.GetKeyDown(action))
-            UseItem(user);
+            UseItem(user, direction);
     }
 
-    public virtual void UseItem(GameObject user)
+    public void TriggerCooldownDisplay()
+    {
+        onDisplayCooldown();
+    }
+
+    public virtual void UseItem(GameObject user, Vector2 direction)
     {
     }
 
-    public virtual void OnSelect(GameObject user)
+    public virtual void OnSelect(GameObject user, Vector2 direction)
+    {
+    }
+
+    public virtual void OnDeselect(GameObject user, Vector2 direction)
     {
     }
 }

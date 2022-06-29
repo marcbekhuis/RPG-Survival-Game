@@ -27,20 +27,22 @@ public class Tool : Weapon
         return item;
     }
 
-    public override IEnumerator UseWeapon(GameObject user)
+    public override IEnumerator UseWeapon(GameObject user, Vector2 direction)
     {
         used = true;
-        yield return new WaitForSeconds(damageDelay);
-        foreach (var target in GetTargets(user))
+        if(damageDelay > 0)
+            yield return new WaitForSeconds(damageDelay);
+        foreach (var target in GetTargets(user, direction))
         {
             if (target.TryGetComponent<Resource>(out Resource resource))
             {
                 resource.Hit(damage);
-                if (singleHit) yield break;
+                if (singleHit) break;
             }
         }
         durability--;
-        yield return new WaitForSeconds(duration - damageDelay);
+        if(duration - damageDelay > 0)
+            yield return new WaitForSeconds(duration - damageDelay);
         used = false;
     }
 }

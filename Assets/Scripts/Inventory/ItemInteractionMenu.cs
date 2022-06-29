@@ -7,6 +7,7 @@ public class ItemInteractionMenu : MonoBehaviour
 {
     public Button splitButton;
     public Button useButton;
+    public Button dropButton;
 
     private bool justOpened = false;
     private RectTransform rectTransform;

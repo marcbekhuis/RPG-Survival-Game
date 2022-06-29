@@ -16,8 +16,15 @@ public class HealthSystem : MonoBehaviour
         get => healthVar;
         set
         {
-            healthVar = Mathf.Clamp(healthVar, 0, maxHealth);
-
+            float oldHealth = healthVar;
+            healthVar = Mathf.Clamp(value, 0, maxHealth);
+            if(healthVar != oldHealth)
+                onHealthChange(healthVar, maxHealth);
         }
+    }
+
+    public void SetHealthToMax()
+    {
+        health = maxHealth;
     }
 }

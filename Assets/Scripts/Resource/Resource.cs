@@ -18,6 +18,8 @@ public class Resource : MonoBehaviour
     private Collider2D collider;
     private Animator animator;
 
+    private float respawnTimer;
+    private bool respawning = false;
     private float health;
 
     private void Awake()
@@ -41,11 +43,15 @@ public class Resource : MonoBehaviour
 
     public void Destroy(float chanceBonus)
     {
-        animator.enabled = false;
+        if(animator) animator.enabled = false;
         spriteRenderer.sprite = destroyedSprite;
         collider.enabled = collisionWhenDestroyed;
         DropItems(chanceBonus);
-        if (respawns) StartCoroutine(Respawn());
+        if (respawns)
+        {
+            respawning = true;
+            respawnTimer = GameManager.instance.time + respawnTimeMin * 60f;
+        }
     }
 
     public void DropItems(float chanceBonus)
@@ -53,20 +59,23 @@ public class Resource : MonoBehaviour
         foreach (var item in dropItems)
         {
             int amount = item.GetAmountChance(chanceBonus);
-            if (amount > 0)
+            for (int i = 0; i < amount; i++)
             {
                 DropItem dropItem = Instantiate(dropItemPrefab, this.transform.position, new Quaternion(0,0,0,0));
-                dropItem.Setup(new Vector2(Random.Range(-1f,1f), Random.Range(-1f, 1f)).normalized * 5, item.item, amount);
+                dropItem.Setup(new Vector2(Random.Range(-1f,1f), Random.Range(-1f, 1f)).normalized * 5, item.item, 1);
             }
         }
     }
 
-    private IEnumerator Respawn()
+    private void Update()
     {
-        yield return new WaitForSeconds(respawnTimeMin * 60f);
-        health = maxHealth;
-        animator.enabled = true;
-        spriteRenderer.sprite = fullSprite;
-        collider.enabled = true;
+        if (!respawning) return;
+        if (GameManager.instance.time > respawnTimer)
+        {
+            health = maxHealth;
+            if (animator) animator.enabled = true;
+            spriteRenderer.sprite = fullSprite;
+            collider.enabled = true;
+        }
     }
 }

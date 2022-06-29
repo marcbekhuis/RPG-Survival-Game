@@ -9,6 +9,7 @@ public class ItemDisplay : MonoBehaviour
     [SerializeField] private Text amountText;
     [SerializeField] private RectTransform durabilityBar;
     [SerializeField] private RectTransform durabilityFill;
+    [SerializeField] private RectTransform cooldownOverlay;
     private RectTransform rectTransform;
 
     private Item itemVar;
@@ -21,13 +22,15 @@ public class ItemDisplay : MonoBehaviour
             if (itemVar)
             {
                 itemVar.onAmountChange -= UpdateAmount;
-                if (item.TryGetType<DurabilityItem>(out DurabilityItem durabilityItem)) durabilityItem.onDurabilityChanged -= UpdateDurabilityBar;
+                if (item.TryGetType<DurabilityItem>(out DurabilityItem durabilityItem)) 
+                    durabilityItem.onDurabilityChanged -= UpdateDurabilityBar;
             }
 
             itemVar = value;
             iconImage.sprite = itemVar.icon;
             amountText.gameObject.SetActive(itemVar.stackSize > 1);
             amountText.text = itemVar.amount.ToString();
+            cooldownOverlay.gameObject.SetActive(false);
 
             if (itemVar)
             {
@@ -39,8 +42,8 @@ public class ItemDisplay : MonoBehaviour
                     UpdateDurabilityBar(durabilityItem.durability, durabilityItem.maxDurability);
                 }
                 else durabilityBar.gameObject.SetActive(false);
-                if(this.gameObject.activeSelf)
-                    if (!TooltipManager.instance.HasItemdisplay(this)) 
+                if (this.gameObject.activeSelf)
+                    if (!TooltipManager.instance.HasItemdisplay(this))
                         TooltipManager.instance.AddItemdisplay(this);
             }
             else TooltipManager.instance.RemoveItemdisplay(this);
@@ -93,5 +96,22 @@ public class ItemDisplay : MonoBehaviour
             }
         }
         return false;
+    }
+
+    private void Update()
+    {
+        if (item.TryGetType<UsableItem>(out UsableItem usableItem))
+        {
+            float time = usableItem.cooldownTimer - GameManager.instance.time;
+            if (time > 0)
+            {
+                cooldownOverlay.gameObject.SetActive(true);
+                cooldownOverlay.sizeDelta = new Vector2(rectTransform.rect.width, rectTransform.rect.height * (Mathf.Clamp(time / usableItem.cooldown, 0, 1)));
+            }
+            else
+            {
+                cooldownOverlay.gameObject.SetActive(false);
+            }
+        }
     }
 }

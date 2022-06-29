@@ -17,6 +17,9 @@ public class Inventory : MonoBehaviour
     public delegate void ItemSlotChange(Vector2Int index, Item item);
     public event ItemSlotChange onItemSlotChange = delegate { };
 
+    public delegate void InventoryChange(Inventory caller);
+    public event InventoryChange onInventoryChange = delegate { };
+
     public Vector2Int Size
     {
         get => size;
@@ -31,6 +34,8 @@ public class Inventory : MonoBehaviour
     public void Setup()
     {
         items = new Item[size.x, size.y];
+        if (linkedInventory)
+            onInventoryChange += linkedInventory.InventoryChanged;
         onInventorySetup();
     }
 
@@ -38,7 +43,7 @@ public class Inventory : MonoBehaviour
     {
         foreach (var itemAmount in startingItems)
         {
-            AddItem(itemAmount.item, itemAmount.GetAmount());
+            AddItem(itemAmount.item, itemAmount.GetAmount(), this);
         }
     }
 
@@ -54,8 +59,24 @@ public class Inventory : MonoBehaviour
         return items[x, y];
     }
 
+    // GetItem : get item by template
+    public Item GetItem(Item itemTemplate, Inventory requesting)
+    {
+        foreach (var item in items)
+        {
+            if (!item)
+                continue;
+            if (item.name == itemTemplate.name)
+                return item;
+        }
+        if (linkedInventory && linkedInventory != requesting)
+            return linkedInventory.GetItem(itemTemplate, requesting);
+
+        return null;
+    }
+
     // AddItem : add item 
-    public bool AddItem(Item item)
+    public bool AddItem(Item item, Inventory requesting)
     {
         for (int y = 0; y < size.y; y++)
         {
@@ -66,16 +87,18 @@ public class Inventory : MonoBehaviour
                     items[x, y] = item;
                     item.inventory = this;
                     onItemSlotChange(new Vector2Int(x,y), items[x, y]);
-                    return false;
+                    return true;
                 }
             }
         }
-        if (linkedInventory) return linkedInventory.AddItem(item);
+        if (linkedInventory && linkedInventory != requesting)
+            return linkedInventory.AddItem(item, requesting);
+
         else return false;
     }
 
     // AddItem : add item using item template, specify amount
-    public int AddItem(Item item, int amount, bool stack = true)
+    public int AddItem(Item item, int amount, Inventory requesting, bool stack = true)
     {
         for (int y = 0; y < size.y; y++)
         {
@@ -113,7 +136,9 @@ public class Inventory : MonoBehaviour
                 }
             }
         }
-        if (linkedInventory) return linkedInventory.AddItem(item, amount, stack);
+        if (linkedInventory && linkedInventory != requesting)
+            return linkedInventory.AddItem(item, amount, requesting, stack);
+
         else return amount;
     }
 
@@ -145,6 +170,7 @@ public class Inventory : MonoBehaviour
                     {
                         items[x, y] = null;
                         onItemSlotChange(new Vector2Int(x, y), null);
+                        onInventoryChange(this);
                         return true;
                     }
                 }
@@ -158,11 +184,12 @@ public class Inventory : MonoBehaviour
     {
         items[index.x, index.y] = null;
         onItemSlotChange(index, null);
+        onInventoryChange(this);
         return;
     }
 
     // HasItem : returns true if item template is in inventory
-    public bool HasItem(Item item)
+    public bool HasItem(Item item, Inventory requesting)
     {
         for (int y = 0; y < size.y; y++)
         {
@@ -170,19 +197,21 @@ public class Inventory : MonoBehaviour
             {
                 if (items[x, y])
                 {
-                    if (items[x, y] == item)
+                    if (items[x, y].name == item.name)
                     {
                         return true;
                     }
                 }
             }
         }
-        if (linkedInventory) return linkedInventory.HasItem(item);
+        if (linkedInventory && linkedInventory != requesting)
+            return linkedInventory.HasItem(item, requesting);
+
         else return false;
     }
 
     // GetItemAmount : returns int amount, item template is in inventory
-    public int GetItemAmount(Item item)
+    public int GetItemAmount(Item item, Inventory requesting)
     {
         int amount = 0;
         for (int y = 0; y < size.y; y++)
@@ -198,12 +227,14 @@ public class Inventory : MonoBehaviour
                 }
             }
         }
-        if (linkedInventory) amount += linkedInventory.GetItemAmount(item);
+        if (linkedInventory && linkedInventory != requesting)
+            amount += linkedInventory.GetItemAmount(item, requesting);
+
         return amount;
     }
 
     // HasEmptySlot : returns true if inventory has empty slot
-    public bool HasEmptySlot()
+    public bool HasEmptySlot(Inventory requesting)
     {
         for (int y = 0; y < size.y; y++)
         {
@@ -215,7 +246,8 @@ public class Inventory : MonoBehaviour
                 }
             }
         }
-        if (linkedInventory) return linkedInventory.HasEmptySlot();
+        if (linkedInventory && linkedInventory != requesting)
+            return linkedInventory.HasEmptySlot(requesting);
         else return false;
     }
 
@@ -226,7 +258,7 @@ public class Inventory : MonoBehaviour
     }
 
     // HasSpaceForItem : returns amount of item that fits in inventory
-    public int HasSpaceForItem(Item item)
+    public int HasSpaceForItem(Item item, Inventory requesting)
     {
         int amount = 0;
         for (int y = 0; y < size.y; y++)
@@ -244,7 +276,8 @@ public class Inventory : MonoBehaviour
             }
         }
 
-        if (linkedInventory) amount += linkedInventory.HasSpaceForItem(item);
+        if (linkedInventory && linkedInventory != requesting)
+            amount += linkedInventory.HasSpaceForItem(item, requesting);
         return amount;
     }
 
@@ -267,13 +300,13 @@ public class Inventory : MonoBehaviour
     // SplitItem : Split item
     public bool SplitItem(Item item)
     {
-        if (HasEmptySlot())
+        if (HasEmptySlot(this))
         {
             if (item.amount > 1)
             {
                 float amount = item.amount / 2f;
                 item.amount = Mathf.CeilToInt(amount);
-                AddItem(item, Mathf.FloorToInt(amount), false);
+                AddItem(item, Mathf.FloorToInt(amount), this, false);
                 return true;
             }
         }
@@ -303,7 +336,7 @@ public class Inventory : MonoBehaviour
         int amount = item.amount - space;
         slotItem.amount += item.amount;
 
-        if (amount > 0) return AddItem(item, amount);
+        if (amount > 0) return AddItem(item, amount, this);
         else return 0;
     }
 
@@ -357,5 +390,16 @@ public class Inventory : MonoBehaviour
         }
 
         public string[] items;
+    }
+
+    public void onItemChange()
+    {
+        onInventoryChange(this);
+    }
+
+    public void InventoryChanged(Inventory inventory)
+    {
+        if (inventory != this)
+            onInventoryChange(inventory);
     }
 }

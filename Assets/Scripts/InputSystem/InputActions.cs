@@ -24,4 +24,6 @@ public enum InputActions
     SelectItem0,
     UseTool,
     TogglePause,
+    DropItem,
+    ToggleCraftingMenu,
 }

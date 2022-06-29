@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37a6b931f823da643b1b05eb2c9c8af1, type: 3}
+  m_Name: Campfire
+  m_EditorClassIdentifier: 
+  displayName: 
+  description: 
+  icon: {fileID: -305001437, guid: e01ee5fb46f17fc448469f4d56b26688, type: 3}
+  dropSprite: {fileID: -305001437, guid: e01ee5fb46f17fc448469f4d56b26688, type: 3}
+  stackSize: 3
+  weight: 0
+  inventory: {fileID: 0}
+  used: 0
+  cooldown: 0
+  action: 18
+  cooldownTimer: 0
+  buildingPrefab: {fileID: 1191834638806475796, guid: de06f6587470c324ab3f7540b7addaed, type: 3}
+  buildingPreview: {fileID: 1191834638806475796, guid: 9b0840eea00929048ae7315755a492b9, type: 3}
+  collisionOffset: {x: 0, y: 0}
+  collisionSize: {x: 1, y: 1}

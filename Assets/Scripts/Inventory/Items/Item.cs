@@ -13,13 +13,16 @@ public class Item : ScriptableObject
     [Min(1)] public int stackSize = 1;
     [SerializeField] private float weight = 0;
     
-    [HideInInspector] public Inventory inventory;
     [HideInInspector] public bool used = false;
 
     protected int amountVar;
+    protected Inventory inventoryVar;
 
     public delegate void AmountChange(int amount);
-    public event AmountChange onAmountChange;
+    public event AmountChange onAmountChange = delegate { };
+
+    public delegate void itemChange();
+    public event itemChange onItemChange = delegate { };
 
     public int amount 
     {
@@ -28,9 +31,26 @@ public class Item : ScriptableObject
         {
             amountVar = Mathf.Clamp(value, 0, stackSize);
             if (amountVar <= 0)
-                inventory.RemoveItem(this);
+                inventoryVar.RemoveItem(this);
             else
                 onAmountChange(amountVar);
+            onItemChange();
+        }
+    }
+
+    public Inventory inventory { 
+        get => inventoryVar;
+        set
+        {
+            if (inventoryVar)
+            {
+                onItemChange -= inventoryVar.onItemChange;
+                inventoryVar.onItemChange();
+            }
+            inventoryVar = value;
+            if(inventoryVar)
+                onItemChange += inventoryVar.onItemChange;
+            onItemChange();
         }
     }
 
@@ -45,7 +65,7 @@ public class Item : ScriptableObject
         this.icon = item.icon;
         this.dropSprite = item.dropSprite;
         this.stackSize = Mathf.Clamp(item.stackSize, 1, int.MaxValue);
-        this.inventory = inventory;
+        this.inventoryVar = inventory;
         this.amountVar = amount;
         this.weight = item.weight;
     }
@@ -108,8 +128,8 @@ public class Item : ScriptableObject
 
     public virtual string GetInformation()
     {
-        return this.name + "\n"
-            + description + "\n"
+        return "<b>" + this.name + "</b>\n"
+            + description + "\n\n"
             + "Amount: " + amountVar + "/" + stackSize;
     }
 

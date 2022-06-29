@@ -50,15 +50,15 @@ public class DurabilityItem : UsableItem
         }
     }
 
-    public override void UseItem(GameObject user)
+    public override void UseItem(GameObject user, Vector2 direction)
     {
         durability--;
     }
 
     public override string GetInformation()
     {
-        return this.name + "\n"
-            + description + "\n"
+        return "<b>" + this.name + "</b>\n"
+            + description + "\n\n"
             + "Amount: " + amountVar + "/" + stackSize + "\n"
             + "Durability: " + durabilityVar + "/" + maxDurability;
     }

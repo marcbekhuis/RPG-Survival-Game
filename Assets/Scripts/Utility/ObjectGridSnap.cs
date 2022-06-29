@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[ExecuteInEditMode]
 public class ObjectGridSnap : MonoBehaviour
 {
     [SerializeField] private bool xOffset = false;

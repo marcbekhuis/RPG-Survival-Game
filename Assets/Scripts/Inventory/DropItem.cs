@@ -34,12 +34,12 @@ public class DropItem : MonoBehaviour
 
         if (fullItem)
         {
-            if (inventory.AddItem(item))
+            if (inventory.AddItem(item, inventory))
                 Destroy(this.gameObject);
         }
         else
         {
-            if (inventory.AddItem(item, amount) <= 0)
+            if (inventory.AddItem(item, amount, inventory) <= 0)
                 Destroy(this.gameObject);
         }
     }

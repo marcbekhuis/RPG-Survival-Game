@@ -15,12 +15,14 @@ public class InputController : InputSystem
     };
         keybinds = new Dictionary<InputActions, List<KeyCode>>
     {
-        {InputActions.Run, new List<KeyCode> {KeyCode.LeftShift, KeyCode.RightShift }},
-        {InputActions.MoveItem, new List<KeyCode> {KeyCode.Mouse0 }},
-        {InputActions.ItemInteraction, new List<KeyCode> {KeyCode.Mouse1 }},
-        {InputActions.ToggleInventory, new List<KeyCode> {KeyCode.Tab }},
-        {InputActions.UseTool, new List<KeyCode> {KeyCode.Joystick1Button0 }},
-        {InputActions.TogglePause, new List<KeyCode> {KeyCode.Escape }},
+        {InputActions.Run, new List<KeyCode> {KeyCode.JoystickButton8}},
+        {InputActions.MoveItem, new List<KeyCode> {KeyCode.JoystickButton0 }},
+        {InputActions.ItemInteraction, new List<KeyCode> {KeyCode.JoystickButton1 }},
+        {InputActions.ToggleInventory, new List<KeyCode> {KeyCode.JoystickButton2 }},
+        {InputActions.UseTool, new List<KeyCode> {KeyCode.JoystickButton4 }},
+        {InputActions.TogglePause, new List<KeyCode> {KeyCode.JoystickButton7 }},
+        {InputActions.DropItem, new List<KeyCode> {KeyCode.JoystickButton3 }},
+        {InputActions.ToggleCraftingMenu, new List<KeyCode> {KeyCode.JoystickButton6 }},
     };
         Load();
     }

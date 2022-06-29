@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c571148ff0194149a28d361ab6505f0, type: 3}
+  m_Name: Campfire
+  m_EditorClassIdentifier: 
+  icon: {fileID: 1108601935, guid: e01ee5fb46f17fc448469f4d56b26688, type: 3}
+  requiredItems:
+  - item: {fileID: 11400000, guid: 43e90bfd5cc1c3f49b40bd1c55fd2133, type: 2}
+    chance: 0
+    minAmount: 5
+    maxAmount: 5
+  - item: {fileID: 11400000, guid: a98684f8d3b5f1e499754819a8b6377d, type: 2}
+    chance: 0
+    minAmount: 10
+    maxAmount: 10
+  - item: {fileID: 11400000, guid: 834481cce71b3924c91f7f01ca969b10, type: 2}
+    chance: 0
+    minAmount: 5
+    maxAmount: 5
+  resultItems:
+  - item: {fileID: 11400000, guid: f92025e4fa4214e45aec06bc28b534a0, type: 2}
+    chance: 0
+    minAmount: 1
+    maxAmount: 1

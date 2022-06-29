@@ -99,10 +99,11 @@ public class InputSettings : MonoBehaviour
 
     public void Save()
     {
-        inputSystem.keybinds.Clear();
+        //inputSystem.keybinds.Clear();
         foreach (var keybind in settingKeybinds)
         {
-            inputSystem.keybinds.Add(keybind.Key, new List<KeyCode>(keybind.Value));
+            if(inputSystem.keybinds.ContainsKey(keybind.Key))
+                inputSystem.keybinds[keybind.Key] = new List<KeyCode>(keybind.Value);
         }
         inputSystem.Save();
     }

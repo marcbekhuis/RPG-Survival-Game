@@ -304,7 +304,13 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-      physicsShape: []
+      physicsShape:
+      - - {x: -1, y: -19}
+        - {x: -16, y: -16}
+        - {x: -17, y: -8}
+        - {x: 3, y: -6}
+        - {x: 21, y: -10}
+        - {x: 16, y: -20}
       tessellationDetail: 0
       bones: []
       spriteID: 9c5fb10c301e22049bd8ac59f7f7d3ac
@@ -1876,7 +1882,7 @@ TextureImporter:
         width: 64
         height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1897,7 +1903,7 @@ TextureImporter:
         width: 64
         height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1918,7 +1924,7 @@ TextureImporter:
         width: 64
         height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1939,7 +1945,7 @@ TextureImporter:
         width: 64
         height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -2020,8 +2026,8 @@ TextureImporter:
       GrassLand_decorative_48: -2035561432
       GrassLand_decorative_76: 1033335254
       GrassLand_decorative_70: -1145534571
-      GrassLand_decorative_14: -1033976864
       GrassLand_decorative_74: 534409548
+      GrassLand_decorative_14: -1033976864
       GrassLand_decorative_66: -306889103
       GrassLand_decorative_75: -1207094110
       GrassLand_decorative_82: -58175088

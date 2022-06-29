@@ -35,6 +35,8 @@ public class InputSystem
         {InputActions.SelectItem0, new List<KeyCode> {KeyCode.Alpha0 }},
         {InputActions.UseTool, new List<KeyCode> {KeyCode.Mouse0 }},
         {InputActions.TogglePause, new List<KeyCode> {KeyCode.Escape }},
+        {InputActions.DropItem, new List<KeyCode> {KeyCode.Q }},
+        {InputActions.ToggleCraftingMenu, new List<KeyCode> {KeyCode.C }},
     };
         axises = new Dictionary<AxisActions, string>
     {
@@ -102,7 +104,7 @@ public class InputSystem
         SaveFile inputSave = JsonSavingLoading.LoadData<SaveFile>("Settings/Keybinds", inputName);
         if (inputSave == null) return;
 
-        keybinds.Clear();
+        //keybinds.Clear();
         for (int i = 0; i < inputSave.actions.Length; i++)
         {
             List<KeyCode> keyCodes = new List<KeyCode>();
@@ -110,7 +112,9 @@ public class InputSystem
             {
                 keyCodes.Add(System.Enum.Parse<KeyCode>(keycode));
             }
-            keybinds.Add(System.Enum.Parse<InputActions>(inputSave.actions[i]), keyCodes);
+            InputActions action = System.Enum.Parse<InputActions>(inputSave.actions[i]);
+            if (keybinds.ContainsKey(action))
+                keybinds[action] = keyCodes;
         }
     }
 

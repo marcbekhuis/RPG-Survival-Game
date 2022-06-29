@@ -6,12 +6,14 @@ public class GameManager : Singleton<GameManager>
 {
     private float timeVar = 0;
 
-    public bool pausedVar = false;
+    private bool pausedVar = false;
     public bool menuOpen = false;
+    public bool respawning = false;
 
     public float time { get => timeVar; }
-    public bool playerInputBlocked { get => paused || menuOpen; }
-    public bool paused { get => pausedVar; 
+    public bool playerInputBlocked { get => pausedVar || menuOpen || respawning; }
+    public bool gameActive { get => !respawning; }
+    public bool paused { get => pausedVar || respawning; 
         set
         {
             pausedVar = value;
@@ -26,6 +28,11 @@ public class GameManager : Singleton<GameManager>
     void Update()
     {
         UpdateTime();
+    }
+
+    private void Start()
+    {
+        respawning = true;
     }
 
     private void UpdateTime()

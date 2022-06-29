@@ -10,7 +10,6 @@ public class Weapon : DurabilityItem
     public float angle;
     [Min(0)] public float radius;
     [Min(0)] public float duration;
-    [Min(0)] public float cooldown;
     public bool singleHit;
     public float damageDelay;
     public LayerMask targetLayer;
@@ -20,8 +19,7 @@ public class Weapon : DurabilityItem
         this.damage = item.damage;
         this.angle = item.angle;
         this.radius = item.radius;
-        this.duration = item.duration;
-        this.cooldown = item.cooldown;
+        this.duration = Mathf.Clamp(item.duration, item.damageDelay, int.MaxValue);
         this.damageDelay = item.damageDelay;
         this.targetLayer = item.targetLayer;
     }
@@ -31,8 +29,7 @@ public class Weapon : DurabilityItem
         this.damage = item.damage;
         this.angle = item.angle;
         this.radius = item.radius;
-        this.duration = item.duration;
-        this.cooldown = item.cooldown;
+        this.duration = Mathf.Clamp(item.duration, item.damageDelay, int.MaxValue);
         this.damageDelay = item.damageDelay;
         this.targetLayer = item.targetLayer;
     }
@@ -53,8 +50,8 @@ public class Weapon : DurabilityItem
 
     public override string GetInformation()
     {
-        return this.name + "\n"
-            + description + "\n"
+        return "<b>" + this.name + "</b>\n"
+            + description + "\n\n"
             + "Damage: " + damage + "\n"
             + "Duration: " + duration + "\n"
             + "Cooldown: " + cooldown + "\n"
@@ -62,32 +59,39 @@ public class Weapon : DurabilityItem
             + "Durability: " + durabilityVar + "/" + maxDurability;
     }
 
-    public override void UseItem(GameObject user)
+    public override void UseItem(GameObject user, Vector2 direction)
     {
-        inventory.StartCoroutine(UseWeapon(user));
+        if (used)
+            return;
+        if (GameManager.instance.time < cooldownTimer)
+            return;
+        cooldownTimer = GameManager.instance.time + cooldown + duration;
+        TriggerCooldownDisplay();
+        inventoryVar.StartCoroutine(UseWeapon(user, direction));
     }
 
-    public virtual IEnumerator UseWeapon(GameObject user)
+    public virtual IEnumerator UseWeapon(GameObject user, Vector2 direction)
     {
         used = true;
-        yield return new WaitForSeconds(damageDelay);
-        foreach (var target in GetTargets(user))
+        if(damageDelay > 0)
+            yield return new WaitForSeconds(damageDelay);
+        foreach (var target in GetTargets(user, direction))
         {
             if(target.TryGetComponent<HealthSystem>(out HealthSystem healthSystem))
             {
                 healthSystem.health -= damage;
-                if (singleHit) yield break;
+                if (singleHit) break;
             }
         }
         durability--;
-        yield return new WaitForSeconds(duration - damageDelay);
+        if (duration - damageDelay > 0)
+            yield return new WaitForSeconds(duration - damageDelay);
         used = false;
     }
 
-    public Collider2D[] GetTargets(GameObject user)
+    public Collider2D[] GetTargets(GameObject user, Vector2 direction)
     {
         Collider2D[] colliders = Physics2D.OverlapCircleAll(user.transform.position, radius, targetLayer);
-        Vector2 direction = PlayerMovement.instance.lastDirection;
         float lookAngle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         float halfAngle = angle / 2f;
 
@@ -96,7 +100,6 @@ public class Weapon : DurabilityItem
         {
             Vector2 objectDirection = ((Vector2)collider.transform.position - (Vector2)user.transform.position).normalized;
             float objectAngle = Mathf.Atan2(objectDirection.y, objectDirection.x) * Mathf.Rad2Deg;
-            Debug.LogError(lookAngle.ToString() + "  " + objectAngle.ToString());
             if(collider.gameObject != user)
                 if (objectAngle < lookAngle + halfAngle && objectAngle > lookAngle - halfAngle) validTargets.Add(collider);
         }

@@ -256,4 +256,8 @@ MonoBehaviour:
     chance: 50
     minAmount: 1
     maxAmount: 5
+  - item: {fileID: 11400000, guid: a98684f8d3b5f1e499754819a8b6377d, type: 2}
+    chance: 100
+    minAmount: 3
+    maxAmount: 5
   dropItemPrefab: {fileID: 7072724294726530916, guid: fa31ddb9189ae02489f3b325fc9a29cc, type: 3}

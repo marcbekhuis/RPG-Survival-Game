@@ -17,7 +17,7 @@ public class ItemAmount
 
     public int GetAmountChance(float bonusChance = 0)
     {
-        if (Random.Range(0, 100) + bonusChance < chance)
+        if (Random.Range(0, 100) - bonusChance < chance)
             return Random.Range(minAmount, maxAmount);
         else
             return 0;

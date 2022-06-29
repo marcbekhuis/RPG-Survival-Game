@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 623d27cd33718de4d86f965103b19b2e, type: 3}
+  m_Name: Iron Sword
+  m_EditorClassIdentifier: 
+  displayName: 
+  description: 
+  icon: {fileID: 21300000, guid: 8f28955d92038974a9b04aafaeea79b0, type: 3}
+  dropSprite: {fileID: 21300000, guid: 8f28955d92038974a9b04aafaeea79b0, type: 3}
+  stackSize: 0
+  weight: 0
+  inventory: {fileID: 0}
+  used: 0
+  cooldown: 1
+  action: 18
+  cooldownTimer: 0
+  maxDurability: 10
+  damage: 5
+  angle: 45
+  radius: 2
+  duration: 2
+  singleHit: 0
+  damageDelay: 1
+  targetLayer:
+    serializedVersion: 2
+    m_Bits: 64

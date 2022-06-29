@@ -55,6 +55,8 @@ public class InputKeyboard : InputSystem
         {InputActions.SelectItem0, new List<KeyCode> {KeyCode.Alpha0 }},
         {InputActions.UseTool, new List<KeyCode> {KeyCode.Mouse0 }},
         {InputActions.TogglePause, new List<KeyCode> {KeyCode.Escape }},
+        {InputActions.DropItem, new List<KeyCode> {KeyCode.Q }},
+        {InputActions.ToggleCraftingMenu, new List<KeyCode> {KeyCode.C }},
     };
         axises = new Dictionary<AxisActions, string>
     {
